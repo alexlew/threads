@@ -12,7 +12,6 @@ public class Counter {
 	private List<MyRunnable> runnables = new ArrayList<MyRunnable>();
 
 	public void incremente(String name) {
-		System.out.println(name + "wainting");
 		synchronized (this) {
 			count++;
 			System.out.println(name + "increments counter (" + count +")");
@@ -31,7 +30,19 @@ public class Counter {
 		for(MyRunnable runnable: runnables){
 			runnable.kill();
 		}
-		executor.shutdownNow();
+		int size = executor.getPoolSize();
+		System.out.println("ThreadPool size: " + size);
+		while(executor.getPoolSize() != size-runnables.size()){
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println("ThreadPool size: " + executor.getPoolSize());
+			System.out.println("remaining: " + (size-runnables.size()));
+			executor.shutdown();
+		}
+			System.out.println("ThreadPool has terminated");
 	}
 
 	public int getCount() {

@@ -15,11 +15,12 @@ public class MyRunnable extends Thread {
 		  while(!stop){
 			  counter.incremente(this.toString());
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 		  }
+		 System.out.println(this.toString() + "is stopping");
 	  }
 	  
 	  public void kill(){
