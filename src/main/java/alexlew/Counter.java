@@ -2,12 +2,17 @@ package alexlew;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Counter {
 
 	private int count;
+	private static final BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(10);
 	
-	PausableThreadPoolExecutor executor = new PausableThreadPoolExecutor();
+	ThreadPoolExecutor executor = new ThreadPoolExecutor(10,10, 10l, TimeUnit.SECONDS, queue);
 	
 	private List<MyRunnable> runnables = new ArrayList<MyRunnable>();
 
